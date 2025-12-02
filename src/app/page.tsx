@@ -16,37 +16,12 @@ export default function Home() {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
-      <section className="relative pt-6 pb-20 md:py-32 overflow-hidden bg-slate-50">
+      <section className="relative pt-6 pb-12 md:pb-20 lg:py-32 overflow-hidden bg-slate-50">
         <div className="container px-4 md:px-6 relative z-10">
           <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 items-center">
-            <div className="flex flex-col justify-center space-y-4">
-              <div className="inline-block rounded-lg bg-primary/10 px-3 py-1 text-sm text-primary w-fit font-medium">
-                Enfermería Dermoestética Avanzada
-              </div>
-              <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">
-                Realza tu <TextFlip words={["belleza natural", "mejor versión", "esencia única"]} className="text-slate-900 bg-slate-100 px-2 rounded" /> con <span className="bg-gradient-to-r from-primary to-blue-600 bg-clip-text text-transparent">Manu Pinto</span>
-              </h1>
-              <p className="max-w-[600px] text-muted-foreground md:text-xl">
-                Especialista en tratamientos faciales, corporales y capilares con 8 años de experiencia.
-                Tu bienestar en las mejores manos en Clínica Ferrus, Barcelona.
-              </p>
-              <div className="flex flex-col gap-2 min-[400px]:flex-row">
-                <Button size="lg" asChild>
-                  <Link href="#contact">
-                    <Calendar className="mr-2 h-4 w-4" />
-                    Reserva tu Cita
-                  </Link>
-                </Button>
-                <Button variant="outline" size="lg" asChild>
-                  <Link href="#services">
-                    Ver Tratamientos
-                  </Link>
-                </Button>
-              </div>
-            </div>
-            <div className="mx-auto lg:ml-auto flex justify-center relative">
-              {/* Professional Photo */}
-              <div className="relative w-[300px] h-[300px] sm:w-[400px] sm:h-[400px] rounded-full overflow-hidden border-4 border-white shadow-xl">
+            {/* Professional Photo - Shows FIRST on mobile */}
+            <div className="mx-auto lg:ml-auto flex justify-center relative order-1 lg:order-2">
+              <div className="relative w-[220px] h-[220px] sm:w-[320px] sm:h-[320px] lg:w-[400px] lg:h-[400px] rounded-full overflow-hidden border-4 border-white shadow-xl">
                 <Image
                   src="/FotoManuPintoEnPersona.jpg"
                   alt="Manu Pinto - Enfermero Dermoestético"
@@ -55,6 +30,33 @@ export default function Home() {
                   style={{ objectPosition: 'center 30%' }}
                   priority
                 />
+              </div>
+            </div>
+
+            {/* Text Content - Shows SECOND on mobile */}
+            <div className="flex flex-col justify-center space-y-3 md:space-y-4 order-2 lg:order-1">
+              <div className="inline-block rounded-lg bg-primary/10 px-3 py-1 text-sm text-primary w-fit font-medium">
+                Enfermería Dermoestética Avanzada
+              </div>
+              <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">
+                Realza tu <TextFlip words={["belleza natural", "mejor versión", "esencia única"]} className="text-slate-900 bg-slate-100 px-2 rounded" /> con <span className="bg-gradient-to-r from-primary to-blue-600 bg-clip-text text-transparent">Manu Pinto</span>
+              </h1>
+              <p className="max-w-[600px] text-muted-foreground text-base md:text-xl">
+                Especialista en tratamientos faciales, corporales y capilares con 8 años de experiencia.
+                Tu bienestar en las mejores manos en Clínica Ferrus, Barcelona.
+              </p>
+              <div className="flex flex-col gap-2 w-full pt-2">
+                <Button size="lg" asChild className="w-full">
+                  <Link href="#contact">
+                    <Calendar className="mr-2 h-4 w-4" />
+                    Reserva tu Cita
+                  </Link>
+                </Button>
+                <Button variant="outline" size="lg" asChild className="w-full">
+                  <Link href="#services">
+                    Ver Tratamientos
+                  </Link>
+                </Button>
               </div>
             </div>
           </div>
