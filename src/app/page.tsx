@@ -1,328 +1,311 @@
+"use client";
 
+import { motion, useScroll, useTransform } from "motion/react";
 import { Button } from "@/components/ui/button";
 import { ServiceCard } from "@/components/ServiceCard";
-import { Sparkles, User, Syringe, MapPin, Calendar, Star, Quote } from "lucide-react";
-import Link from "next/link";
+import { TeamSection } from "@/components/TeamSection";
+import { MobileStickyCTA } from "@/components/MobileStickyCTA";
+import { VintagePriceList } from "@/components/VintagePriceList";
+import { Reveal } from "@/components/Reveal";
+import { InfiniteMarquee } from "@/components/InfiniteMarquee";
+import { Scissors, Sun, User, Calendar, Sparkles, Clock, MapPin, Quote, Star, ChevronRight, ArrowRight, Video } from "lucide-react";
 import Image from "next/image";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion"
-import { TextFlip } from "@/components/ui/text-flip";
+import Link from "next/link";
+import { useRef } from "react";
 
 export default function Home() {
+  const containerRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end start"]
+  });
+
+  const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
+  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+
+  const services = [
+    {
+      title: "Corte Loop",
+      description: "Asesoramiento personalizado, lavado relajante y corte de precisión. Acabado con peinado profesional.",
+      price: "20€",
+      duration: "45 min",
+      image: "/barber-cut.png"
+    },
+    {
+      title: "Arreglo de Barba",
+      description: "Perfilado con navaja, rebajado y tratamiento con toalla caliente y aceites esenciales.",
+      price: "15€",
+      duration: "30 min",
+      image: "/barber-shave.png"
+    },
+    {
+      title: "Combo Completo",
+      description: "La experiencia definitiva. Corte de cabello y arreglo de barba premium con ritual de bienestar.",
+      price: "32€",
+      duration: "75 min",
+      image: "/barber-hero.png"
+    },
+    {
+      title: "Afeitado Clásico",
+      description: "Ritual tradicional con toalla caliente, espuma de alta calidad y masaje facial post-afeitado.",
+      price: "20€",
+      duration: "40 min",
+      image: "/barber-shave.png"
+    }
+  ];
+
   return (
-    <div className="flex flex-col min-h-screen">
-      {/* Hero Section */}
-      <section className="relative pt-6 pb-12 md:pb-20 lg:py-32 overflow-hidden bg-slate-50">
-        <div className="container px-4 md:px-6 relative z-10">
-          <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 items-center">
-            {/* Professional Photo - Shows FIRST on mobile */}
-            <div className="mx-auto lg:ml-auto flex justify-center relative order-1 lg:order-2">
-              <div className="relative w-[220px] h-[220px] sm:w-[320px] sm:h-[320px] lg:w-[400px] lg:h-[400px] rounded-full overflow-hidden border-4 border-white shadow-xl">
-                <Image
-                  src="/FotoManuPintoEnPersona.jpg"
-                  alt="Manu Pinto - Enfermero Dermoestético"
-                  fill
-                  className="object-cover object-center"
-                  style={{ objectPosition: 'center 30%' }}
-                  priority
-                />
-              </div>
-            </div>
+    <div className="flex flex-col min-h-screen bg-background text-foreground selection:bg-primary selection:text-primary-foreground pb-20 md:pb-0" ref={containerRef}>
+      <MobileStickyCTA />
 
-            {/* Text Content - Shows SECOND on mobile */}
-            <div className="flex flex-col justify-center space-y-3 md:space-y-4 order-2 lg:order-1">
-              <div className="inline-block rounded-lg bg-primary/10 px-3 py-1 text-sm text-primary w-fit font-medium">
-                Enfermería Dermoestética Avanzada
-              </div>
-              <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">
-                Realza tu <TextFlip words={["belleza natural", "mejor versión", "esencia única"]} className="text-slate-900 bg-slate-100 px-2 rounded" /> con <span className="bg-gradient-to-r from-primary to-blue-600 bg-clip-text text-transparent">Manu Pinto</span>
-              </h1>
-              <p className="max-w-[600px] text-muted-foreground text-base md:text-xl">
-                Especialista en tratamientos faciales, corporales y capilares con 8 años de experiencia.
-                Tu bienestar en las mejores manos en Clínica Ferrus, Barcelona.
-              </p>
-              <div className="flex flex-col gap-2 w-full pt-2">
-                <Button size="lg" asChild className="w-full">
-                  <Link href="#contact">
-                    <Calendar className="mr-2 h-4 w-4" />
-                    Reserva tu Cita
-                  </Link>
-                </Button>
-                <Button variant="outline" size="lg" asChild className="w-full">
-                  <Link href="#services">
-                    Ver Tratamientos
-                  </Link>
-                </Button>
-              </div>
-            </div>
-          </div>
+      {/* Modern Hero Section with Parallax */}
+      <section className="relative h-[85vh] md:h-screen flex items-center justify-center overflow-hidden">
+        {/* Parallax Background */}
+        <motion.div style={{ y, opacity }} className="absolute inset-0 z-0 h-[120%] -top-[10%]">
+          <Image
+            src="/barbershop-hero.png"
+            alt="Barbershop Interior"
+            fill
+            className="object-cover opacity-70"
+            priority
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-background via-black/40 to-black/20 z-10" />
+        </motion.div>
+
+        {/* Decorative Marquee (Background) */}
+        <div className="absolute top-1/4 left-0 w-full z-10 opacity-10 rotate-[-5deg] pointer-events-none mix-blend-overlay">
+          <InfiniteMarquee items={["STYLE", "PRECISION", "LUXURY", "BARBER", "CLASSIC", "MODERN"]} speed="slow" />
         </div>
-        {/* Decorative background element */}
-        <div className="absolute top-0 right-0 -z-10 h-full w-1/2 bg-gradient-to-l from-slate-100 to-transparent opacity-50" />
-      </section>
 
-      <section id="about" className="py-16 md:py-24 bg-white">
-        <div className="container px-4 md:px-6">
-          <div className="grid gap-10 lg:grid-cols-2 items-center">
-            <div className="relative h-[300px] lg:h-[500px] rounded-xl overflow-hidden shadow-2xl order-2 lg:order-1">
-              <Image
-                src="/FotoManuPinto2.jpg"
-                alt="Manu Pinto - Enfermero Dermoestético"
-                fill
-                className="object-cover object-center"
-                style={{ objectPosition: 'center 20%' }}
-              />
+        <div className="container relative z-20 px-4 text-center">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1.2, ease: "easeOut" }}
+            className="space-y-4"
+          >
+            {/* Floating Badge */}
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+              className="absolute top-0 right-0 md:right-20 -mt-20 hidden md:flex items-center justify-center w-32 h-32 rounded-full border border-primary/30 text-primary uppercase text-[10px] tracking-widest font-bold"
+            >
+              <div className="absolute inset-0 flex items-center justify-center text-center">EST.<br />2024</div>
+            </motion.div>
+
+            <h2 className="text-primary uppercase tracking-[0.5em] text-xs md:text-sm font-bold animate-fadeIn drop-shadow-md">
+              Barcelona's Finest
+            </h2>
+
+            {/* Massive Typography */}
+            <div className="relative inline-block">
+              <h1 className="text-7xl md:text-9xl lg:text-[12rem] font-bold tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white to-zinc-500 font-heading leading-none mix-blend-overlay opacity-50 absolute top-0 left-0 w-full transform -translate-y-4 blur-sm select-none">
+                LOOP
+              </h1>
+              <h1 className="relative text-7xl md:text-9xl lg:text-[12rem] font-bold tracking-tighter text-white font-heading leading-none drop-shadow-2xl z-10">
+                LOOP
+              </h1>
             </div>
-            <div className="space-y-4 order-1 lg:order-2">
-              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">
-                <span className="bg-gradient-to-r from-slate-700 to-slate-500 bg-clip-text text-transparent">Sobre Mí</span>
-              </h2>
-              <p className="text-muted-foreground text-lg">
-                Soy Manu Pinto, enfermero dermoestético con una trayectoria de 8 años dedicados al cuidado de la piel y la estética.
-              </p>
-              <p className="text-muted-foreground">
-                Mi filosofía se basa en resultados naturales y armónicos, utilizando las técnicas más avanzadas y seguras.
-                Actualmente paso consulta en la prestigiosa <strong>Clínica Ferrus</strong> en Barcelona, donde ofrezco un trato personalizado y cercano a cada paciente.
-              </p>
-              <ul className="grid gap-2 py-4">
-                <li className="flex items-center gap-2">
-                  <Sparkles className="h-5 w-5 text-primary" />
-                  <span className="font-medium">8 Años de Experiencia</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <MapPin className="h-5 w-5 text-primary" />
-                  <span className="font-medium">Clínica Ferrus, Barcelona</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <Syringe className="h-5 w-5 text-primary" />
-                  <span className="font-medium">Técnicas Avanzadas</span>
-                </li>
-              </ul>
+
+            <p className="text-2xl md:text-4xl lg:text-5xl font-light text-zinc-300 tracking-wide font-heading uppercase">
+              Barbershop
+            </p>
+
+            <div className="h-1 w-24 bg-primary mx-auto my-8 rounded-full"></div>
+
+            {/* Modern Barber Buttons */}
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-6 pt-6">
+              <Link href="https://wa.me/34123456789?text=Hola%20Loop,%20quiero%20reservar%20una%20cita." target="_blank" className="relative group overflow-hidden w-full sm:w-auto">
+                <div className="absolute inset-0 w-3 bg-white transition-all duration-[250ms] ease-out group-hover:w-full opacity-10 skew-x-12 origin-left"></div>
+                <Button size="lg" className="relative bg-primary text-black hover:bg-primary hover:text-black font-bold uppercase tracking-wide px-12 h-16 text-base w-full sm:w-auto rounded-none border-0 shadow-[0_0_20px_rgba(234,179,8,0.4)] transition-all group-hover:shadow-[0_0_35px_rgba(234,179,8,0.7)] group-hover:-translate-y-1">
+                  <Calendar className="mr-2 h-5 w-5" /> Reservar Ahora
+                </Button>
+              </Link>
+
+              <Link href="#servicios" className="w-full sm:w-auto">
+                <Button variant="outline" size="lg" className="border-white/20 bg-white/5 backdrop-blur-md text-zinc-100 hover:bg-white hover:text-black hover:border-white uppercase tracking-wide px-12 h-16 text-base w-full sm:w-auto rounded-none transition-all duration-300 group">
+                  <span className="mr-2">Ver Servicios</span>
+                  <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
+                </Button>
+              </Link>
             </div>
+          </motion.div>
+        </div>
+
+        {/* Bottom Glass Strip of Marquee */}
+        <div className="absolute bottom-0 left-0 w-full h-16 bg-black/20 backdrop-blur-md border-t border-white/10 flex items-center overflow-hidden z-20">
+          <div className="w-full animate-marquee whitespace-nowrap flex items-center text-zinc-400 text-sm font-mono tracking-widest gap-16 uppercase opacity-70">
+            <span>• Corte Clásico</span>
+            <span>• Afeitado Tradicional</span>
+            <span>• Ambiente Exclusivo</span>
+            <span>• Cerveza & Café</span>
+            <span>• Corte Clásico</span>
+            <span>• Afeitado Tradicional</span>
+            <span>• Ambiente Exclusivo</span>
+            <span>• Cerveza & Café</span>
+            <span>• Corte Clásico</span>
+            <span>• Afeitado Tradicional</span>
+            <span>• Ambiente Exclusivo</span>
+            <span>• Cerveza & Café</span>
+            <span>• Corte Clásico</span>
+            <span>• Afeitado Tradicional</span>
+            <span>• Ambiente Exclusivo</span>
+            <span>• Cerveza & Café</span>
           </div>
         </div>
       </section>
 
       {/* Services Section */}
-      <section id="services" className="py-16 md:py-24 bg-slate-50">
-        <div className="container px-4 md:px-6">
-          <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
-            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">
-              <span className="bg-gradient-to-r from-teal-600 to-cyan-600 bg-clip-text text-transparent">Mis Especialidades</span>
-            </h2>
-            <p className="max-w-[700px] text-muted-foreground md:text-lg">
-              Tratamientos personalizados diseñados para realzar tu belleza y mejorar tu bienestar.
-            </p>
-          </div>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            <ServiceCard
-              title="Facial"
-              description="Rejuvenecimiento facial, hidratación profunda, corrección de arrugas y mejora de la calidad de la piel con tratamientos mínimamente invasivos."
-              icon={Sparkles}
-              image="/1.jpg"
-            />
-            <ServiceCard
-              title="Corporal"
-              description="Tratamientos reductores, reafirmantes y anticelulíticos. Moldea tu figura y mejora la textura de tu piel con aparatología de última generación."
-              icon={User}
-              image="/2.jpg"
-            />
-            <ServiceCard
-              title="Capilar"
-              description="Mesoterapia capilar y tratamientos para fortalecer el cabello, frenar la caída y estimular el crecimiento de forma efectiva."
-              icon={Syringe}
-              image="/3.jpg"
-            />
-          </div>
-        </div>
-      </section>
+      <section id="servicios" className="pt-4 pb-24 md:py-24 bg-background relative">
+        {/* Premium Divider */}
+        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent"></div>
 
-
-
-      {/* Success Cases Section */}
-      <section className="py-16 md:py-24 bg-slate-50">
-        <div className="container px-4 md:px-6">
-          <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
-            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">
-              <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">Casos de Éxito</span>
-            </h2>
-            <p className="max-w-[700px] text-muted-foreground md:text-lg">
-              Resultados reales que hablan por sí mismos. Descubre cómo hemos ayudado a nuestros pacientes a potenciar su belleza.
-            </p>
-          </div>
-          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-            <div className="group relative overflow-hidden rounded-xl bg-white shadow-lg">
-              <div className="aspect-[4/3] relative">
-                <Image
-                  src="/4.jpg"
-                  alt="Tratamiento Facial Resultado"
-                  fill
-                  className="object-cover transition-transform group-hover:scale-105"
-                />
-              </div>
-              <div className="p-6">
-                <h3 className="font-bold text-xl mb-2">Rejuvenecimiento Facial</h3>
-                <p className="text-muted-foreground">Mejora visible de la textura y luminosidad de la piel tras 3 sesiones de mesoterapia facial.</p>
-              </div>
-            </div>
-            <div className="group relative overflow-hidden rounded-xl bg-white shadow-lg">
-              <div className="aspect-[4/3] relative">
-                <Image
-                  src="/5.jpg"
-                  alt="Tratamiento Corporal Resultado"
-                  fill
-                  className="object-cover transition-transform group-hover:scale-105"
-                />
-              </div>
-              <div className="p-6">
-                <h3 className="font-bold text-xl mb-2">Remodelación Corporal</h3>
-                <p className="text-muted-foreground">Reducción de volumen y reafirmación en zona abdominal con nuestro protocolo combinado.</p>
-              </div>
-            </div>
-            <div className="group relative overflow-hidden rounded-xl bg-white shadow-lg">
-              <div className="aspect-[4/3] relative">
-                <Image
-                  src="/6.jpg"
-                  alt="Tratamiento Capilar Resultado"
-                  fill
-                  className="object-cover transition-transform group-hover:scale-105"
-                />
-              </div>
-              <div className="p-6">
-                <h3 className="font-bold text-xl mb-2">Recuperación Capilar</h3>
-                <p className="text-muted-foreground">Aumento de la densidad y grosor del cabello tras completar el ciclo de tratamiento capilar.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* FAQ Section */}
-      <section className="py-16 md:py-24 bg-gradient-to-b from-slate-50 to-white">
-        <div className="container px-4 md:px-6 max-w-4xl mx-auto">
-          <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
-            <div className="inline-block rounded-lg bg-indigo-100 px-3 py-1 text-sm text-indigo-700 font-medium mb-2">
-              Dudas Comunes
-            </div>
-            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">
-              <span className="bg-gradient-to-r from-violet-600 to-purple-600 bg-clip-text text-transparent">Preguntas Frecuentes</span>
-            </h2>
-            <p className="text-muted-foreground md:text-lg max-w-2xl">
-              Resolvemos tus dudas principales antes de tu visita.
-            </p>
-          </div>
-          <div className="bg-white rounded-2xl shadow-xl border border-slate-200 p-6 md:p-8">
-            <Accordion type="single" collapsible className="w-full">
-              <AccordionItem value="item-1" className="border-b border-slate-200">
-                <AccordionTrigger className="text-left hover:text-indigo-600 transition-colors">
-                  ¿Los tratamientos son dolorosos?
-                </AccordionTrigger>
-                <AccordionContent className="text-muted-foreground">
-                  La mayoría de nuestros tratamientos son mínimamente invasivos y muy bien tolerados. Utilizamos anestesia tópica cuando es necesario para asegurar tu máximo confort.
-                </AccordionContent>
-              </AccordionItem>
-              <AccordionItem value="item-2" className="border-b border-slate-200">
-                <AccordionTrigger className="text-left hover:text-indigo-600 transition-colors">
-                  ¿Cuánto tiempo duran los resultados?
-                </AccordionTrigger>
-                <AccordionContent className="text-muted-foreground">
-                  La duración varía según el tratamiento y el paciente. Por ejemplo, los rellenos con ácido hialurónico suelen durar entre 6 y 12 meses, mientras que los tratamientos de calidad de piel requieren mantenimiento periódico.
-                </AccordionContent>
-              </AccordionItem>
-              <AccordionItem value="item-3" className="border-b border-slate-200">
-                <AccordionTrigger className="text-left hover:text-indigo-600 transition-colors">
-                  ¿Ofrecéis primera consulta gratuita?
-                </AccordionTrigger>
-                <AccordionContent className="text-muted-foreground">
-                  Sí, la primera consulta de valoración es totalmente gratuita. En ella analizamos tu caso y diseñamos un plan de tratamiento personalizado sin compromiso.
-                </AccordionContent>
-              </AccordionItem>
-              <AccordionItem value="item-4" className="border-none">
-                <AccordionTrigger className="text-left hover:text-indigo-600 transition-colors">
-                  ¿Puedo hacer vida normal después del tratamiento?
-                </AccordionTrigger>
-                <AccordionContent className="text-muted-foreground">
-                  En la gran mayoría de los casos, sí. Puedes reincorporarte a tu rutina inmediatamente. Te daremos pautas específicas de cuidados posteriores según el procedimiento realizado.
-                </AccordionContent>
-              </AccordionItem>
-            </Accordion>
-          </div>
-        </div>
-      </section>
-
-      {/* Testimonials Section */}
-      <section className="py-16 md:py-24 bg-white">
-        <div className="container px-4 md:px-6">
-          <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
-            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">
-              <span className="bg-gradient-to-r from-pink-500 to-rose-500 bg-clip-text text-transparent">Lo que dicen mis pacientes</span>
-            </h2>
-          </div>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            <TestimonialCard
-              name="Marta Rodríguez"
-              text="Llevaba tiempo buscando un especialista que entendiera que quería resultados naturales. Manu me recomendó un plan de armonización facial y no puedo estar más feliz. Me veo descansada y radiante, pero sigo siendo yo."
-            />
-            <TestimonialCard
-              name="Javier Méndez"
-              text="Acudí a Manu por la caída del cabello y su tratamiento de mesoterapia ha sido un cambio radical. En pocos meses he notado mucha más densidad y fuerza. Su trato en la Clínica Ferrus es impecable, te hace sentir muy cómodo."
-            />
-            <TestimonialCard
-              name="Sofía Almagro"
-              text="Me realicé un tratamiento corporal para mejorar la flacidez y los resultados han superado mis expectativas. Manu es muy honesto con lo que se puede conseguir y eso me dio mucha confianza. ¡Un 10 como profesional!"
-            />
-          </div>
-        </div>
-      </section>
-
-      {/* Contact Section */}
-      <section id="contact" className="py-16 md:py-24 bg-slate-50">
-        <div className="container px-4 md:px-6">
-          <div className="grid gap-10 lg:grid-cols-2 items-center">
-            <div className="space-y-4">
-              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">
-                <span className="bg-gradient-to-r from-sky-600 to-blue-600 bg-clip-text text-transparent">Pide tu Cita</span>
-              </h2>
-              <p className="text-muted-foreground md:text-lg">
-                Ven a visitarme a Clínica Ferrus. La primera consulta de valoración es clave para diseñar tu plan de tratamiento personalizado.
+        <div className="container px-4">
+          <Reveal>
+            <div className="text-center mb-8 md:mb-16 space-y-4">
+              <h2 className="text-3xl md:text-5xl font-bold font-heading text-foreground uppercase tracking-tight">Nuestros Servicios</h2>
+              <div className="w-24 h-1 bg-primary mx-auto rounded-full"></div>
+              <p className="text-zinc-500 max-w-2xl mx-auto pt-4">
+                Cortes diseñados para encajar con tu estilo de vida.
               </p>
-              <div className="flex flex-col gap-4">
-                <div className="flex items-center gap-3">
-                  <div className="bg-primary/10 p-3 rounded-full text-primary">
-                    <MapPin className="h-6 w-6" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold">Ubicación</h3>
-                    <p className="text-muted-foreground">Carrer de Example, 123, 08000 Barcelona</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="bg-primary/10 p-3 rounded-full text-primary">
-                    <Calendar className="h-6 w-6" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold">Horario</h3>
-                    <p className="text-muted-foreground">Lunes a Viernes: 10:00 - 20:00</p>
-                  </div>
-                </div>
-              </div>
-              <div className="pt-4">
-                <Button size="lg" className="w-full sm:w-auto">
-                  Contactar por WhatsApp
-                </Button>
-              </div>
             </div>
-            <div className="relative h-[300px] lg:h-[400px] rounded-xl overflow-hidden shadow-lg">
-              <Image
-                src="/ClinicaFerrus.jpg"
-                alt="Clínica Ferrus"
-                fill
-                className="object-cover"
+          </Reveal>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {services.map((service, index) => (
+              <Reveal key={index} delay={index * 0.1}>
+                <ServiceCard {...service} />
+              </Reveal>
+            ))}
+          </div>
+
+          <Reveal delay={0.4}>
+            <VintagePriceList />
+          </Reveal>
+        </div>
+      </section>
+
+      {/* About / Philosophy Section */}
+      <section id="nosotros" className="py-24 bg-zinc-900/50 overflow-hidden relative">
+        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent"></div>
+        <div className="container px-4">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            {/* Visual Placeholder */}
+            <Reveal delay={0.2}>
+              <div className="order-2 lg:order-1 relative h-[500px] bg-zinc-800 border-r-4 border-b-4 border-primary/20 group overflow-hidden">
+                <Image
+                  src="/barber-interior.png"
+                  fill
+                  className="object-cover transition-all duration-700 group-hover:scale-105"
+                  alt="Interior Loop Barbershop"
+                />
+                <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all duration-700" />
+              </div>
+            </Reveal>
+
+            <div className="order-1 lg:order-2 space-y-8">
+              <Reveal>
+                <div className="space-y-2">
+                  <h3 className="text-primary font-bold uppercase tracking-widest text-sm">Nuestra Filosofía</h3>
+                  <h2 className="text-4xl md:text-5xl font-bold font-heading text-white">
+                    La Experiencia Loop
+                  </h2>
+                </div>
+              </Reveal>
+              <Reveal delay={0.2}>
+                <div className="space-y-6 text-zinc-400 text-lg leading-relaxed font-light">
+                  <p>
+                    En <strong>Loop Barbershop</strong>, creemos que el estilo es cíclico pero la calidad es atemporal. Combinamos las técnicas de la vieja escuela con las tendencias más actuales para ofrecerte un look que te defina.
+                  </p>
+                  <p>
+                    Nuestro espacio está diseñado para que te desconectes del ruido de la ciudad. Buena música, café de especialidad y profesionales que se toman el tiempo necesario para lograr la perfección en cada detalle.
+                  </p>
+                </div>
+              </Reveal>
+
+              <Reveal delay={0.4}>
+                <div className="grid grid-cols-2 gap-6 pt-6">
+                  <div className="p-6 border border-zinc-800 bg-black/20 text-center">
+                    <h3 className="text-4xl font-bold text-white mb-2 font-heading">+500</h3>
+                    <p className="text-xs text-zinc-500 uppercase tracking-widest">Clientes Felices</p>
+                  </div>
+                  <div className="p-6 border border-zinc-800 bg-black/20 text-center">
+                    <h3 className="text-4xl font-bold text-white mb-2 font-heading">100%</h3>
+                    <p className="text-xs text-zinc-500 uppercase tracking-widest">Estilo Genuino</p>
+                  </div>
+                </div>
+              </Reveal>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Expert Strategy: Team Section (Building Authority) */}
+      <TeamSection />
+
+      {/* Testimonials */}
+      <section className="py-24 bg-background relative">
+        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-zinc-800 to-transparent"></div>
+        <div className="container px-4">
+          <div className="text-center mb-16">
+            <Reveal>
+              <h2 className="text-3xl font-bold font-heading text-white mb-4">LO QUE DICEN ELLOS</h2>
+              <div className="w-24 h-1 bg-primary mx-auto"></div>
+            </Reveal>
+          </div>
+          <div className="grid md:grid-cols-3 gap-8">
+            <Reveal delay={0.1}>
+              <TestimonialCard
+                name="Carlos Ruiz"
+                text="El mejor degradado que me han hecho en años. El ambiente es brutal y la atención de 10."
               />
+            </Reveal>
+            <Reveal delay={0.2}>
+              <TestimonialCard
+                name="David M."
+                text="Un trato espectacular. Se nota que saben lo que hacen. El arreglo de barba con toalla caliente es otro nivel."
+              />
+            </Reveal>
+            <Reveal delay={0.3}>
+              <TestimonialCard
+                name="Alex Torres"
+                text="Mi barbería de confianza desde que abrieron. Buen precio para la calidad que ofrecen. Recomendadísimo."
+              />
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
+      {/* Location / Info Strip */}
+      <section className="py-16 bg-primary text-primary-foreground border-y border-yellow-600/20">
+        <div className="container px-4 flex flex-col md:flex-row items-center justify-around gap-8 text-center md:text-left">
+          <div className="flex items-center gap-6 group">
+            <div className="p-4 bg-black/10 rounded-none transform rotate-3 group-hover:rotate-0 transition-transform">
+              <MapPin className="w-8 h-8" />
+            </div>
+            <div>
+              <h4 className="font-bold text-xl uppercase font-heading">Visítanos</h4>
+              <p className="text-primary-foreground/80 font-mono text-sm">Carrer de Ejemplo 123, BCN</p>
+            </div>
+          </div>
+          <div className="w-px h-16 bg-black/10 hidden md:block"></div>
+          <div className="flex items-center gap-6 group">
+            <div className="p-4 bg-black/10 rounded-none transform -rotate-3 group-hover:rotate-0 transition-transform">
+              <Clock className="w-8 h-8" />
+            </div>
+            <div>
+              <h4 className="font-bold text-xl uppercase font-heading">Horario</h4>
+              <p className="text-primary-foreground/80 font-mono text-sm">Lun - Vie: 10h - 20h</p>
+            </div>
+          </div>
+          <div className="w-px h-16 bg-black/10 hidden md:block"></div>
+          <div className="flex items-center gap-6 group">
+            <div className="p-4 bg-black/10 rounded-none transform rotate-3 group-hover:rotate-0 transition-transform">
+              <Calendar className="w-8 h-8" />
+            </div>
+            <div>
+              <h4 className="font-bold text-xl uppercase font-heading">Reservas</h4>
+              <p className="text-primary-foreground/80 font-mono text-sm">Online o WhatsApp</p>
             </div>
           </div>
         </div>
@@ -331,33 +314,23 @@ export default function Home() {
   );
 }
 
-function Card({ className, children }: { className?: string, children: React.ReactNode }) {
-  return <div className={`rounded-lg border bg-card text-card-foreground shadow-sm ${className}`}>{children}</div>
-}
-
 function TestimonialCard({ name, text }: { name: string, text: string }) {
   return (
-    <Card className="p-6 h-full flex flex-col justify-between">
-      <div className="space-y-4">
-        <Quote className="h-8 w-8 text-primary/20" />
-        <p className="text-muted-foreground italic">"{text}"</p>
+    <div className="bg-zinc-900/50 border border-zinc-800 p-8 hover:border-primary/50 transition-colors group">
+      <div className="flex text-primary mb-4 opacity-50 group-hover:opacity-100 transition-opacity">
+        <Star className="w-4 h-4 fill-current" />
+        <Star className="w-4 h-4 fill-current" />
+        <Star className="w-4 h-4 fill-current" />
+        <Star className="w-4 h-4 fill-current" />
+        <Star className="w-4 h-4 fill-current" />
       </div>
-      <div className="mt-6 flex items-center gap-2">
-        <div className="h-8 w-8 rounded-full bg-slate-200 flex items-center justify-center text-xs font-bold text-slate-500">
+      <p className="text-zinc-400 italic mb-6 leading-relaxed">"{text}"</p>
+      <div className="flex items-center gap-3">
+        <div className="w-8 h-8 bg-zinc-800 flex items-center justify-center font-bold text-zinc-500 rounded-full text-xs">
           {name.charAt(0)}
         </div>
-        <div>
-          <p className="font-semibold text-sm">{name}</p>
-          <div className="flex text-yellow-400">
-            <Star className="h-3 w-3 fill-current" />
-            <Star className="h-3 w-3 fill-current" />
-            <Star className="h-3 w-3 fill-current" />
-            <Star className="h-3 w-3 fill-current" />
-            <Star className="h-3 w-3 fill-current" />
-          </div>
-        </div>
+        <span className="font-bold text-white uppercase text-sm tracking-wide">{name}</span>
       </div>
-    </Card>
+    </div>
   )
 }
-
