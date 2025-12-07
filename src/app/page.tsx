@@ -132,9 +132,9 @@ export default function Home() {
           </motion.div>
         </div>
 
-        {/* Bottom Glass Strip of Marquee */}
-        <div className="absolute bottom-0 left-0 w-full h-16 bg-black/20 backdrop-blur-md border-t border-white/10 flex items-center overflow-hidden z-20">
-          <div className="w-full animate-marquee whitespace-nowrap flex items-center text-zinc-400 text-sm font-mono tracking-widest gap-16 uppercase opacity-70">
+        {/* Bottom Glass Strip of Marquee - Hidden on mobile, visible from md up */}
+        <div className="absolute bottom-0 left-0 w-full h-12 md:h-16 bg-black/20 backdrop-blur-md border-t border-white/10 items-center overflow-hidden z-20 hidden sm:flex">
+          <div className="w-full animate-marquee whitespace-nowrap flex items-center text-zinc-400 text-xs md:text-sm font-mono tracking-wider md:tracking-widest gap-8 md:gap-16 uppercase opacity-70">
             <span>• Corte Clásico</span>
             <span>• Afeitado Tradicional</span>
             <span>• Ambiente Exclusivo</span>
