@@ -8,6 +8,7 @@ import { MobileStickyCTA } from "@/components/MobileStickyCTA";
 import { VintagePriceList } from "@/components/VintagePriceList";
 import { Reveal } from "@/components/Reveal";
 import { InfiniteMarquee } from "@/components/InfiniteMarquee";
+import { SocialProofStrip } from "@/components/SocialProofStrip";
 import { Scissors, Sun, User, Calendar, Sparkles, Clock, MapPin, Quote, Star, ChevronRight, ArrowRight, Video } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -154,6 +155,9 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Social Proof Strip - Conversion Booster */}
+      <SocialProofStrip />
 
       {/* Services Section */}
       <section id="servicios" className="pt-4 pb-24 md:py-24 bg-background relative">
